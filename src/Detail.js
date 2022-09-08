@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./Detail.css";
 import { useEffect } from "react";
-import { getOrgs, getRepos } from "./Redux/slice";
+import { clean, getOrgs, getRepos } from "./Redux/slice";
 
 const Detail = () => {
   const { username } = useParams();
@@ -17,6 +17,7 @@ const Detail = () => {
   useEffect(() => {
     dispatch(getRepos(repos_url));
     dispatch(getOrgs(organizations_url));
+    return () => {dispatch(clean())}
   }, [dispatch, repos_url, organizations_url]);
 
   const reposToRender = repos.slice(0, 5);
@@ -40,7 +41,7 @@ const Detail = () => {
             {
                 reposToRender.length > 0 ? 
                 reposToRender.map((data) => 
-                <div className="Detail-repos-container-text">
+                <div className="Detail-repos-container-text" key={users.id}>
                     <div>{data.name} </div>
                     <div>{data.description} </div>
                     <div>{data.html_url} </div>
@@ -54,7 +55,7 @@ const Detail = () => {
              {
                 orgs.length > 0 ? 
                 orgs.map((data) => 
-                <div className="Detail-repos-container-text">
+                <div className="Detail-repos-container-text" key={username}>
                     <div>{data.login} </div>
                     <div>{data.description} </div>
                 </div>

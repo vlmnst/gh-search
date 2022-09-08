@@ -22,6 +22,8 @@ export const slice = createSlice({
         },
         clean(state,action) {
             state.users = []
+            state.repos = []
+            state.orgs = []
         }
     }
 });
