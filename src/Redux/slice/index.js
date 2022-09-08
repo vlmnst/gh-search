@@ -12,16 +12,19 @@ export const slice = createSlice({
         getUsers(state,action){
             state.users = action.payload
         },
+        clean(state,action) {
+            state.users = []
+        }
     }
 });
 
 export const getUsers = ( username )=> async(dispatch) => {
     try {
-        // var json = await axios.get(ROUTE + username + '&page='+ slice.initialState.page + '&per_page' + 5)
-        var json = await axios.get(ROUTE + username + '&page=' + slice.getInitialState().page + '&per_page=' + 10 )
-
-        dispatch(slice.actions.getUsers(json.data))
+        var json = await axios.get(ROUTE + username + '&page=' + slice.getInitialState().page + '&per_page=' + 6 )
+        dispatch(slice.actions.getUsers(json.data.items))
     } catch (e) {
         console.log(e)
     }
 };
+
+export const { clean } = slice.actions;
